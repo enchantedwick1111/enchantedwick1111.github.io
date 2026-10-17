@@ -1330,7 +1330,7 @@ Beyond that, simply be open and receptive. You can go about your day completely 
 <div class="detail-accordions">
         <div class="accordion-item">
           <button class="accordion-btn" onclick="toggleAccordion(this)">About This Service <span class="acc-arrow">▾</span></button>
-          <div class="accordion-body"><p>Deep chakra alignment and aura cleansing to restore energetic flow, clarity, and radiant well-being. Your seven main chakras are energy centers that govern different aspects of your physical, emotional, and spiritual health. When they become blocked or imbalanced, you may feel stuck, depleted, or unwell. This session works through all seven chakras, clearing blockages and restoring balanced energy flow, while simultaneously clearing your aura of negative attachments, stagnant energy, and psychic debris.</p></div>
+          <div class="accordion-body"><p>Deep chakra alignment and aura cleansing to restore energetic flow, clarity, and radiant well-being. Your seven main chakras are energy centers that govern different aspects of your physical, emotional, and spiritual health. When they fall out of alignment, you may feel stuck, scattered, or out of sync. This session works through all seven chakras, clearing blockages and restoring balanced energy flow, while simultaneously clearing your aura of negative attachments, stagnant energy, and psychic debris.</p></div>
         </div>
         <div class="accordion-item">
           <button class="accordion-btn" onclick="toggleAccordion(this)">What You Will Receive <span class="acc-arrow">▾</span></button>
@@ -2238,6 +2238,20 @@ function toggleFaq(btn) {
   if (!isOpen) item.classList.add('open');
 }
 function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+/* Direct links: enchantedwick1111.com/#etr opens that service's detail page */
+(function () {
+  const _open = openService, _closeAll = closeAllDetails, _close = closeService;
+  const setHash = h => { try { history.replaceState(null, '', h ? '#' + h : location.pathname + location.search); } catch (e) {} };
+  openService = function (id) { _open(id); if (document.getElementById('detail-' + id)) setHash(id); };
+  closeAllDetails = function () { _closeAll(); setHash(''); };
+  closeService = function (tab) { _close(tab); setHash(''); };
+  function openFromHash() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (id && document.getElementById('detail-' + id)) _open(id);
+  }
+  window.addEventListener('hashchange', openFromHash);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', openFromHash); else openFromHash();
+})();
 document.querySelectorAll('.nav-links a').forEach(a => {
   a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
 });
